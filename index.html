@@ -103,7 +103,7 @@
         var highScoresRaw = localStorage.getItem("highScores");
 
         // If exists, convert to array and display it to user
-        if (highScoresRaw !== "null") {
+        if (highScoresRaw !== null) {
           try {
             var highScores = JSON.parse(highScoresRaw);
 
@@ -227,7 +227,7 @@
         };
 
         var highScoresRaw = localStorage.getItem("highScores");
-        if (highScoresRaw !== "null") {
+        if (highScoresRaw !== null) {
           try {
             highScores = JSON.parse(highScoresRaw);
             highScores.push(scoreData);
