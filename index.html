@@ -14,52 +14,54 @@
   <title>Coding Quiz Challenge</title>
 </head>
 
-<body>
-  <div class="container bg-light">
-    <div class="row align-middle">
-      <nav class="col-1">
-        <a id="view-scores" href="">View High Scores</a>
-      </nav>
-      <header class="col">
+<body class="bg-light">
+  <div class="container">
+    <div class="row py-3 bg-secondary text-light">
+      <div class="col-2 align-middle">
+        <button id="view-scores" class="btn-link btn-secondary">View High Scores</button>
+      </div>
+      <div class="col-8 text-center align-middle">
         <h1>Coding Quiz Challenge</h1>
-      </header>
-      <div class="col-1">
-        Time: &nbsp;<span id="time-remaining">0</span>
-        <div id="aria-timer" role="progressbar" aria-valuemin="0"></div>
+      </div>
+      <div class="col-2 text-right align-middle">
+        <h3>Time: &nbsp;<span id="time-remaining">0</span></h3>
+        <span id="aria-timer" role="progressbar" aria-valuemin="0"></span>
       </div>
     </div>
-    <main class="row">
-      <div id="start-page" class="col">
-        <p class="text-info">Try to answer the following code-related questions within the time limit. Keep in mind that
-          incorrect answers will penalize your score/time by ten seconds!
-        </p>
+    <div class="row">
+      <div id="start-page" class="col my-3 p-3">
+        <h2 class="text-center">Welcome!</h2>
+        <hr>
+        <h4 class="text-primary mx-5 px-5 my-3">Try to answer the following code-related questions within the time limit. Keep
+          in mind that incorrect answers will penalize your score/time by ten seconds!
+        </h4>
         <br>
         <div class="row">
-          <div class="col text-center">
-            <button id="start-quiz">Start Quiz</button>
+          <div class="col text-center align-middle py-5">
+            <button id="start-quiz" class="btn btn-primary btn-lg">Start Quiz</button>
           </div>
         </div>
       </div>
 
-      <div id="quiz-page" class="col d-none">
+      <div id="quiz-page" class="col my-3 p-2 border rounded d-none">
         <div class="row">
-          <div class="col text-center">
-            <h4 id="question" role="alert"></h4>
+          <div class="col text-center m-3 px-5 align-middle">
+            <h3 id="question" role="alert"></h3>
           </div>
         </div>
         <div class="row">
-          <div class="col text-center p-3">
-            <ul id="response-list" class="list-group"></ul>
+          <div class="col text-center mx-2 my-4">
+            <ul id="response-list" class="list-group p-2"></ul>
           </div>
         </div>
         <div class="row">
-          <div class="col text-center">
-            <h3 id="correct" class="text-white bg-success d-none" role="alert">Correct!</h3>
-            <h3 id="incorrect" class="text-white bg-warning d-none" role="alert">Incorrect.</h3>
+          <div class="col text-center m-3 align-middle" role="alert">
+            <h3 id="correct" class="text-success d-none">Correct!</h3>
+            <h3 id="incorrect" class="text-warning d-none">Incorrect.</h3>
           </div>
         </div>
       </div>
-    </main>
+    </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
