@@ -1,15 +1,17 @@
 $(document).ready(function () {
  // Assign hooks into various DOM elements
- var viewScoresAnchor = $("#view-scores");
+ var viewScoresButton = $("#view-scores");
  var timeSpan = $("#time-remaining");
  var ariaTimer = $("#aria-timer");
  var startPageDiv = $("#start-page");
  var startQuizButton = $("#start-quiz");
  var quizPageDiv = $("#quiz-page");
- var questionH4 = $("#question");
+ var questionsH = $("#question");
  var responseList = $("#response-list");
- var correctH3 = $("#correct");
- var incorrectH3 = $("#incorrect");
+ var correctH = $("#correct");
+ var incorrectH = $("#incorrect");
+
+ // Global Variables
 
  // Variables for timer functionality
  var timeRemaining;
@@ -20,7 +22,7 @@ $(document).ready(function () {
 
  // Event Listeners
 
- viewScoresAnchor.click(function (event) {
+ viewScoresButton.click(function (event) {
   event.preventDefault();
 
   // Check to see if high scores array exists in local storage
@@ -72,8 +74,8 @@ $(document).ready(function () {
   // Hide start page and show quiz
   startPageDiv.addClass("d-none");
   quizPageDiv.removeClass("d-none");
-  correctH3.addClass("d-none");
-  incorrectH3.addClass("d-none");
+  correctH.addClass("d-none");
+  incorrectH.addClass("d-none");
  }
 
  function updateTimer() {
@@ -99,22 +101,22 @@ $(document).ready(function () {
   // Shows the specified question
 
   // Show the title
-  questionH4.text(questions[index].title);
+  questionsH.text(questions[index].title);
 
   // Present the choices
   responseList.empty();
   questions[index].choices.forEach(function (choice) {
-   responseList.append($("<li>").append($("<button>").addClass("btn choice-button").text(choice).click(function (event) {
+   responseList.append($("<li>").append($("<button>").addClass("btn btn-info choice-button").text(choice).click(function (event) {
     // We must add the click event handler for the choice buttons dynamically on the fly because they don't exist until created here
     event.preventDefault();
 
     // Determine if answer was correct or not and show corresponding output on page
     if ($(this).text() === questions[questionIndex].answer) {
-     correctH3.removeClass("d-none");
-     incorrectH3.addClass("d-none");
+     correctH.removeClass("d-none");
+     incorrectH.addClass("d-none");
     } else {
-     incorrectH3.removeClass("d-none");
-     correctH3.addClass("d-none");
+     incorrectH.removeClass("d-none");
+     correctH.addClass("d-none");
 
      // Deduct 10 points for being wrong
      if (timeRemaining > 10) {
