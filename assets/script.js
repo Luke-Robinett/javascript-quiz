@@ -174,7 +174,7 @@ $(document).ready(function () {
   ariaResult.attr("role", "alert");
   setTimeout(function() {
    ariaResult.removeAttr("role");
-  }, 100);
+  }, 200);
  }
 
  function hideResult() {
