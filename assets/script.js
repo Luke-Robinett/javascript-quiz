@@ -135,11 +135,6 @@ $(document).ready(function () {
       return;
      }
     })).addClass("list-group-item"));
-   })
-
-   // Set focus to first button in list of choices
-   $(".choice-button:first").ready(function () {
-    $(".choice-button:first").focus();
    });
   });
  }
