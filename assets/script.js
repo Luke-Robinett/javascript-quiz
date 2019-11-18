@@ -8,8 +8,8 @@ $(document).ready(function () {
  var quizPageDiv = $("#quiz-page");
  var questionsH = $("#question");
  var responseList = $("#response-list");
- var correctH = $("#correct");
- var incorrectH = $("#incorrect");
+ var resultH = $("#result");
+ var ariaResult = $("#aria-result");
 
  // Global Variables
 
@@ -74,8 +74,7 @@ $(document).ready(function () {
   // Hide start page and show quiz
   startPageDiv.addClass("d-none");
   quizPageDiv.removeClass("d-none");
-  correctH.addClass("d-none");
-  incorrectH.addClass("d-none");
+  hideResult();
  }
 
  function updateTimer() {
@@ -86,7 +85,6 @@ $(document).ready(function () {
    timeRemaining--;
   } else {
    recordScore();
-   return;
   }
  }
 
@@ -100,46 +98,50 @@ $(document).ready(function () {
  function showQuestion(index) {
   // Shows the specified question
 
-  // Show the title
-  questionsH.text(questions[index].title);
+  quizPageDiv.ready(function () {
+   // Show the title
+   questionsH.text(questions[index].title);
 
-  // Present the choices
-  responseList.empty();
-  questions[index].choices.forEach(function (choice) {
-   responseList.append($("<li>").append($("<button>").addClass("btn btn-info choice-button").text(choice).click(function (event) {
-    // We must add the click event handler for the choice buttons dynamically on the fly because they don't exist until created here
-    event.preventDefault();
+   // Present the choices
+   responseList.empty();
+   questions[index].choices.forEach(function (choice) {
+    responseList.append($("<li>").append($("<button>").addClass("btn btn-info choice-button").text(choice).click(function (event) {
+     // We must add the click event handler for the choice buttons dynamically on the fly because they don't exist until created here
+     event.preventDefault();
 
-    // Determine if answer was correct or not and show corresponding output on page
-    if ($(this).text() === questions[questionIndex].answer) {
-     correctH.removeClass("d-none");
-     incorrectH.addClass("d-none");
-    } else {
-     incorrectH.removeClass("d-none");
-     correctH.addClass("d-none");
-
-     // Deduct 10 points for being wrong
-     if (timeRemaining > 10) {
-      timeRemaining -= 10;
+     // Determine if answer was correct or not and show corresponding output on page
+     if ($(this).text() === questions[questionIndex].answer) {
+      showResult("Correct!");
      } else {
-      // If there aren't 10 seconds remaining in the game, end game and record the score
-      timeRemaining = 0;
-      setTimeout(recordScore, 1000);
+      showResult("Incorrect.");
+
+      // Deduct 10 points for being wrong
+      if (timeRemaining > 10) {
+       timeRemaining -= 10;
+      } else {
+       // If there aren't 10 seconds remaining in the game, end game and record the score
+       timeRemaining = 0;
+       recordScore();
+       return;
+      }
+     }
+
+     if (questionIndex < (questions.length - 1)) {
+      // Move to the next question if there is one, otherwise end the game and record the score
+      questionIndex++;
+      setTimeout(showQuestion, 250, questionIndex);
+     } else {
+      recordScore();
       return;
      }
-    }
-    if (questionIndex < (questions.length - 1)) {
-     // Move to the next question if there is one, otherwise end the game and record the score
-     questionIndex++;
-     setTimeout(showQuestion, 100, questionIndex);
-    } else {
-     recordScore();
-     return;
-    }
-   })).addClass("list-group-item"));
-  })
+    })).addClass("list-group-item"));
+   })
 
-  $(".choice-button:first").focus();
+   // Set focus to first button in list of choices
+   $(".choice-button:first").ready(function () {
+    $(".choice-button:first").focus();
+   });
+  });
  }
 
  function recordScore() {
@@ -166,5 +168,21 @@ $(document).ready(function () {
    localStorage.setItem("highScores", JSON.stringify(highScores));
   }
   showStartPage();
+ }
+
+ function showResult(resultText) {
+  resultH.text(resultText);
+  resultH.removeClass("d-none");
+
+  // For screen readers
+  ariaResult.text(resultText);
+  ariaResult.attr("role", "alert");
+  setTimeout(function() {
+   ariaResult.removeAttr("role");
+  }, 100);
+ }
+
+ function hideResult() {
+  resultH.addClass("d-none");
  }
 });
